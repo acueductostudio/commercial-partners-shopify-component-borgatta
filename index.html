@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotización Component - Unificado</title>
+    
+    <!-- Estilos principales -->
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+           
+        }
+        
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.8;
+        }
+        
+        /* PANEL DE CONTROLES - SOLO PARA DESARROLLO */
+        .dev-controls {
+            background: #34495e;
+            color: white;
+            padding: 20px;
+            border-bottom: 1px solid #2c3e50;
+        }
+        
+        .dev-controls h3 {
+            margin: 0 0 15px 0;
+            color: #ecf0f1;
+        }
+        
+        .control-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        
+        .control-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .control-group input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        .btn.secondary {
+            background: #95a5a6;
+        }
+        
+        .btn.secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        .btn.success {
+            background: #27ae60;
+        }
+        
+        .btn.success:hover {
+            background: #229954;
+        }
+        
+        .btn.warning {
+            background: #f39c12;
+        }
+        
+        .btn.warning:hover {
+            background: #e67e22;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status.mock {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .status.production {
+            background: #27ae60;
+            color: white;
+        }
+        
+        /* CONTENIDO PRINCIPAL */
+        
+        
+        .component-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .control-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .dev-controls {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER 
+        <div class="header">
+            <h1>Componente de Cotización Unificado</h1>
+            <p>Componente React unificado para Depósito y Asesor</p>
+        </div>
+        -->
+        
+        <!-- PANEL DE CONTROLES - SOLO PARA DESARROLLO -->
+        <!-- 
+        DESARROLLO: Descomenta esta sección para controles de prueba
+        PRODUCCIÓN: Comenta esta sección completa
+        
+        <div class="dev-controls">
+            <h3>🧪 Panel de Desarrollo</h3>
+            
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="mockModeCheckbox">
+                    <span>Modo Mock (datos de prueba)</span>
+                </label>
+                <span id="mockStatus" class="status mock">MOCK</span>
+            </div>
+            
+            <div class="control-group">
+                <button class="btn" onclick="loadDepositoData()">📦 Cargar Datos Depósito</button>
+                <button class="btn" onclick="loadAsesorData()">👤 Cargar Datos Asesor</button>
+                <button class="btn secondary" onclick="clearComponent()">🗑️ Limpiar</button>
+            </div>
+            
+            <div class="control-group">
+                <button class="btn warning" onclick="showDebugInfo()">🔍 Debug Info</button>
+                <button class="btn success" onclick="toggleMockMode()">🔄 Cambiar Modo</button>
+                <button class="btn" onclick="testReact()">🧪 Test React</button>
+                <button class="btn secondary" onclick="checkComponentStatus()">📋 Estado del Componente</button>
+            </div>
+        </div>
+
+        -->
+        
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="main-content">
+            <div id="cotizacion-root" class="component-wrapper">
+                <!-- El componente React se montará aquí -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Importar el componente React 
+    <script type="module">
+        // Importar el componente principal
+        async function loadComponent() {
+            try {
+                console.log('🔄 Intentando importar src/index.js...');
+                await import('./src/index.js');
+                console.log('✅ Módulo src/index.js importado correctamente');
+                
+                // Verificar que se expuso correctamente
+                console.log('🔍 window.CotizacionComponent después del import:', window.CotizacionComponent);
+            } catch (error) {
+                console.error('❌ Error al importar src/index.js:', error);
+                console.error('❌ Stack trace:', error.stack);
+            }
+        }
+        
+        // Ejecutar la carga del componente
+        loadComponent();
+        
+        // ========================================
+        // CONFIGURACIÓN DE DESARROLLO
+        // ========================================
+        
+        // Datos de prueba
+        const TEST_DATA = {
+            DEPOSITO_BASICO: {
+                role: "Deposito",
+                idCliente: "D-123574654",
+                email: "deposito@test.com",
+                productos: [
+                    {
+                        variantId: 123456789,
+                        title: "Producto Test Depósito",
+                        sku: "SKU-DEP-001",
+                        quantity: 2
+                    }
+                ],
+                totalItems: 2,
+                totalPrice: 150.00
+            },
+            
+            ASESOR_BASICO: {
+                role: "Asesor",
+                idCliente: "A-454654654",
+                email: "asesor@test.com",
+                productos: [
+                    {
+                        variantId: 987654321,
+                        title: "Producto Test Asesor",
+                        sku: "SKU-ASE-001",
+                        quantity: 1
+                    }
+                ],
+                totalItems: 1,
+                totalPrice: 75.50
+            }
+        };
+        
+        // Variables globales
+        let currentComponent = null;
+        let isMockMode = true;
+        
+        // ========================================
+        // FUNCIONES DE CONTROL
+        // ========================================
+        
+        window.loadDepositoData = async function() {
+            console.log('📦 Cargando datos de Depósito...');
+            console.log('📦 Datos:', TEST_DATA.DEPOSITO_BASICO);
+            
+            try {
+                // Importar el componente directamente
+                if (!window.CotizacionComponent) {
+                    console.log('📦 Importando componente...');
+                    await import('./src/index.js');
+                    await new Promise(resolve => setTimeout(resolve, 500)); // Esperar un poco
+                }
+                
+                console.log('📦 window.CotizacionComponent:', window.CotizacionComponent);
+                
+                if (!window.CotizacionComponent || !window.CotizacionComponent.initializeCotizacionComponent) {
+                    throw new Error('El componente no está disponible después de la importación');
+                }
+                
+                initializeComponent(TEST_DATA.DEPOSITO_BASICO);
+            } catch (error) {
+                console.error('❌ Error cargando datos de Depósito:', error);
+                alert('❌ Error: ' + error.message);
+            }
+        };
+        
+        window.loadAsesorData = async function() {
+            console.log('👤 Cargando datos de Asesor...');
+            console.log('👤 Datos:', TEST_DATA.ASESOR_BASICO);
+            
+            try {
+                // Importar el componente directamente
+                if (!window.CotizacionComponent) {
+                    console.log('👤 Importando componente...');
+                    await import('./src/index.js');
+                    await new Promise(resolve => setTimeout(resolve, 500)); // Esperar un poco
+                }
+                
+                console.log('👤 window.CotizacionComponent:', window.CotizacionComponent);
+                
+                if (!window.CotizacionComponent || !window.CotizacionComponent.initializeCotizacionComponent) {
+                    throw new Error('El componente no está disponible después de la importación');
+                }
+                
+                initializeComponent(TEST_DATA.ASESOR_BASICO);
+            } catch (error) {
+                console.error('❌ Error cargando datos de Asesor:', error);
+                alert('❌ Error: ' + error.message);
+            }
+        };
+        
+        window.clearComponent = function() {
+            console.log('🗑️ Limpiando componente...');
+            if (window.CotizacionComponent && window.CotizacionComponent.cleanupCotizacionComponent) {
+                window.CotizacionComponent.cleanupCotizacionComponent('cotizacion-root');
+            }
+            currentComponent = null;
+        };
+        
+        window.toggleMockMode = function() {
+            if (window.CotizacionComponent && window.CotizacionComponent.setMockMode) {
+                isMockMode = !isMockMode;
+                window.CotizacionComponent.setMockMode(isMockMode, true);
+                updateMockStatus();
+                syncMockModeCheckbox();
+                console.log(`🔄 Modo cambiado a: ${isMockMode ? 'MOCK' : 'PRODUCCIÓN'}`);
+            }
+        };
+        
+        window.showDebugInfo = function() {
+            if (window.CotizacionComponent && window.CotizacionComponent.getDebugInfo) {
+                const info = window.CotizacionComponent.getDebugInfo();
+                console.log('🔍 Debug Info:', info);
+                alert(`Debug Info:\n\nActive Roots: ${info.activeRoots}\nMock Mode: ${info.mockMode}\n\nVer consola para más detalles.`);
+            }
+        };
+        
+        window.checkComponentStatus = function() {
+            console.log('📋 Verificando estado del componente...');
+            console.log('📋 window.CotizacionComponent:', window.CotizacionComponent);
+            console.log('📋 typeof window.CotizacionComponent:', typeof window.CotizacionComponent);
+            
+            if (window.CotizacionComponent) {
+                console.log('✅ CotizacionComponent está disponible');
+                console.log('📋 Propiedades:', Object.keys(window.CotizacionComponent));
+                console.log('📋 initializeCotizacionComponent:', window.CotizacionComponent.initializeCotizacionComponent);
+                console.log('📋 cleanupCotizacionComponent:', window.CotizacionComponent.cleanupCotizacionComponent);
+                console.log('📋 setMockMode:', window.CotizacionComponent.setMockMode);
+                
+                alert('✅ Componente Cargado\n\nPropiedades disponibles:\n' + Object.keys(window.CotizacionComponent).join('\n'));
+            } else {
+                console.error('❌ CotizacionComponent NO está disponible');
+                alert('❌ Componente NO Cargado\n\nRevisa la consola para más detalles.');
+            }
+        };
+        
+        // Test simple de React - función global
+        window.testReact = async function() {
+            const container = document.getElementById('cotizacion-root');
+            
+            try {
+                console.log('🧪 Iniciando test de React...');
+                
+                // Limpiar contenedor
+                if (container) {
+                    container.innerHTML = '';
+                }
+                
+                console.log('🧪 Importando módulos...');
+                const [ReactModule, ReactDOMModule] = await Promise.all([
+                    import('react'),
+                    import('react-dom/client')
+                ]);
+                
+                console.log('✅ Módulos importados');
+                console.log('🔍 Keys de ReactModule:', Object.keys(ReactModule));
+                console.log('🔍 Keys de ReactDOMModule:', Object.keys(ReactDOMModule));
+                console.log('🔍 ReactModule.default:', ReactModule.default);
+                console.log('🔍 ReactModule.createElement:', ReactModule.createElement);
+                
+                // Determinar cómo acceder a React
+                const React = ReactModule.default || ReactModule;
+                console.log('🔍 React final:', React);
+                console.log('🔍 React.createElement:', React?.createElement);
+                
+                // Determinar cómo acceder a createRoot
+                const createRoot = ReactDOMModule.createRoot || ReactDOMModule.default?.createRoot;
+                
+                if (!createRoot) {
+                    throw new Error('createRoot no está disponible en react-dom/client');
+                }
+                
+                console.log('✅ createRoot encontrado');
+                
+                if (!React || !React.createElement) {
+                    throw new Error('React.createElement no está disponible. React: ' + JSON.stringify(Object.keys(React || {})));
+                }
+                
+                console.log('✅ React.createElement encontrado');
+                
+                if (!container) {
+                    throw new Error('Contenedor cotizacion-root no encontrado');
+                }
+                
+                // Crear componente de test simple
+                const TestDiv = React.createElement('div', {
+                    style: { 
+                        padding: '20px', 
+                        backgroundColor: '#4caf50', 
+                        margin: '20px 0',
+                        border: '3px solid #2e7d32',
+                        borderRadius: '8px',
+                        fontSize: '18px',
+                        fontWeight: 'bold',
+                        color: 'white',
+                        textAlign: 'center'
+                    }
+                }, '✅ React está funcionando correctamente!');
+                
+                // Crear root y renderizar
+                console.log('🎯 Creando root de React...');
+                const root = createRoot(container);
+                
+                console.log('🎯 Renderizando componente...');
+                root.render(TestDiv);
+                
+                console.log('✅ Test completado exitosamente!');
+                
+                // Verificar contenido después de render
+                setTimeout(() => {
+                    console.log('🔍 HTML renderizado:', container.innerHTML);
+                }, 500);
+                
+            } catch (error) {
+                console.error('❌ Error en test de React:', error);
+                console.error('❌ Mensaje:', error?.message || 'Sin mensaje');
+                console.error('❌ Stack:', error?.stack || 'Sin stack');
+                
+                // Mostrar error en la página
+                if (container) {
+                    container.innerHTML = `
+                        <div style="padding: 20px; background: #ffebee; border: 2px solid #f44336; border-radius: 8px; color: #c62828;">
+                            <h3>❌ Error en Test de React</h3>
+                            <p><strong>Mensaje:</strong> ${error?.message || 'Error desconocido'}</p>
+                            <pre style="background: #fff; padding: 10px; border-radius: 4px; overflow: auto;">${error?.stack || 'Sin stack trace'}</pre>
+                        </div>
+                    `;
+                }
+            }
+        };
+        
+        function initializeComponent(props) {
+            console.log('🚀 Inicializando componente con props:', props);
+            
+            // Verificar que el contenedor existe
+            const container = document.getElementById('cotizacion-root');
+            console.log('🔍 Contenedor encontrado:', container);
+            
+            if (!container) {
+                console.error('❌ Contenedor cotizacion-root no encontrado');
+                alert('Error: Contenedor del componente no encontrado.');
+                return;
+            }
+            
+            if (window.CotizacionComponent && window.CotizacionComponent.initializeCotizacionComponent) {
+                // Limpiar componente anterior si existe
+                clearComponent();
+                
+                console.log('🔄 Llamando a initializeCotizacionComponent...');
+                
+                // Inicializar nuevo componente - orden correcto: props primero, luego containerId
+                currentComponent = window.CotizacionComponent.initializeCotizacionComponent(
+                    props,
+                    'cotizacion-root'
+                );
+                
+                console.log('✅ Componente inicializado:', currentComponent);
+                
+                // Verificar que el componente se renderizó
+                setTimeout(() => {
+                    const renderedContent = document.querySelector('#cotizacion-root > *');
+                    console.log('🔍 Contenido renderizado:', renderedContent);
+                    if (!renderedContent) {
+                        console.warn('⚠️ No se detectó contenido renderizado en el contenedor');
+                    }
+                }, 1000);
+            } else {
+                console.error('❌ CotizacionComponent no está disponible');
+                console.log('🔍 window.CotizacionComponent:', window.CotizacionComponent);
+                alert('Error: El componente no está cargado correctamente. Revisa la consola para más detalles.');
+            }
+        }
+        
+        function updateMockStatus() {
+            const statusElement = document.getElementById('mockStatus');
+            if (statusElement) {
+                if (isMockMode) {
+                    statusElement.textContent = 'MOCK';
+                    statusElement.className = 'status mock';
+                } else {
+                    statusElement.textContent = 'PRODUCCIÓN';
+                    statusElement.className = 'status production';
+                }
+            }
+        }
+        
+        function syncMockModeCheckbox() {
+            const checkbox = document.getElementById('mockModeCheckbox');
+            if (checkbox) {
+                checkbox.checked = isMockMode;
+            }
+        }
+        
+        // ========================================
+        // EVENT LISTENERS
+        // ========================================
+        
+        // Checkbox de modo mock
+        document.getElementById('mockModeCheckbox')?.addEventListener('change', function(e) {
+            if (window.CotizacionComponent && window.CotizacionComponent.setMockMode) {
+                isMockMode = e.target.checked;
+                window.CotizacionComponent.setMockMode(isMockMode, true);
+                updateMockStatus();
+                console.log(`🔄 Modo mock: ${isMockMode ? 'ACTIVADO' : 'DESACTIVADO'}`);
+            }
+        });
+        
+        // ========================================
+        // INICIALIZACIÓN
+        // ========================================
+        
+        // Esperar a que el componente esté cargado
+        let waitAttempts = 0;
+        const MAX_WAIT_ATTEMPTS = 20; // 10 segundos máximo
+        
+        function waitForComponent() {
+            waitAttempts++;
+            console.log(`🔍 Verificando disponibilidad del componente... (intento ${waitAttempts}/${MAX_WAIT_ATTEMPTS})`);
+            console.log('🔍 window.CotizacionComponent:', window.CotizacionComponent);
+            console.log('🔍 typeof window.CotizacionComponent:', typeof window.CotizacionComponent);
+            
+            if (window.CotizacionComponent) {
+                console.log('✅ CotizacionComponent encontrado!');
+                console.log('🔍 Métodos disponibles:', Object.keys(window.CotizacionComponent));
+                console.log('🔍 initializeCotizacionComponent:', typeof window.CotizacionComponent.initializeCotizacionComponent);
+                
+                // Configurar modo mock inicial
+                if (window.CotizacionComponent.setMockMode) {
+                    window.CotizacionComponent.setMockMode(isMockMode, false);
+                    console.log('✅ Modo mock configurado');
+                }
+                
+                updateMockStatus();
+                syncMockModeCheckbox();
+                
+                console.log('✅ Componente listo para usar!');
+                console.log('👉 Haz clic en "📦 Cargar Datos Depósito" o "👤 Cargar Datos Asesor" para empezar');
+                
+            } else {
+                if (waitAttempts < MAX_WAIT_ATTEMPTS) {
+                    console.log('⏳ Esperando CotizacionComponent...');
+                    setTimeout(waitForComponent, 500);
+                } else {
+                    console.error('❌ Timeout: El componente no se cargó después de ' + (MAX_WAIT_ATTEMPTS * 0.5) + ' segundos');
+                    alert('❌ Error: El componente no se pudo cargar. Por favor, recarga la página.');
+                }
+            }
+        }
+        
+        
+        // Inicializar cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                // NO ejecutar testReact automáticamente - solo esperar el componente
+                waitForComponent();
+            });
+        } else {
+            waitForComponent();
+        }
+        
+        // ========================================
+        // CONFIGURACIÓN PARA PRODUCCIÓN
+        // ========================================
+        
+        /*
+        PARA USAR EN PRODUCCIÓN (Shopify):
+        
+        1. Comenta toda la sección "dev-controls" en el HTML
+        2. Comenta todo este script de desarrollo
+        3. Descomenta y configura el script de producción abajo:
+        
+        <script type="module">
+            import './src/index.js';
+            
+            // Datos reales de Shopify
+            const shopifyData = {
+                role: "{{ customer.tags }}",
+                idCliente: "{{ customer.default_address.company }}",
+                email: "{{ customer.email }}",
+                productos: [
+                    {% for item in cart.items %}
+                    {
+                        variantId: {{ item.variant_id }},
+                        title: "{{ item.title }}",
+                        sku: "{{ item.sku }}",
+                        quantity: {{ item.quantity }}
+                    }{% unless forloop.last %},{% endunless %}
+                    {% endfor %}
+                ],
+                totalItems: {{ cart.item_count }},
+                totalPrice: {{ cart.total_price | money_without_currency }}
+            };
+            
+            // Inicializar componente cuando esté listo
+            function initializeProductionComponent() {
+                if (window.CotizacionComponent) {
+                    window.CotizacionComponent.initializeCotizacionComponent(
+                        'cotizacion-root',
+                        shopifyData
+                    );
+                } else {
+                    setTimeout(initializeProductionComponent, 100);
+                }
+            }
+            
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeProductionComponent);
+            } else {
+                initializeProductionComponent();
+            }
+        */
+    </script>
+    -->
+</body>
+</html>

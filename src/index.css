@@ -1,0 +1,422 @@
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Contenedor principal */
+.Wrapp-component {
+    max-width: 800px;
+    margin: 0 auto;
+    
+  
+   
+}
+
+/* Tarjetas de componentes */
+.cardComponent {
+    background: #fff;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.cardComponent-coments {
+    background: #fff;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Títulos */
+.title-card_component {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+ 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wrapp-tile-narrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    
+}
+
+/* Inputs y selects */
+.Component-input {
+    margin-bottom: 20px;
+}
+
+.inputSearch {
+    width: 100%;
+  height: 48px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.2s ease;
+    border-radius: 50px;
+}
+
+.inputSearch:focus {
+    outline: none;
+    border-color: #1C83E3;
+    box-shadow: 0 0 0 3px rgba(28, 131, 227, 0.1);
+}
+
+:where(.css-dev-only-do-not-override-1odpy5d).ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector
+{
+    border-style: none;
+    background-color: transparent;
+    
+}
+li{
+    list-style: none;
+}
+
+.WrappSedeSelect {
+    display: flex;
+    gap: 16px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.WrappSedeSelect:hover {
+    background: #F5F6FD;
+}
+
+.WrappSedeSelect input {
+    position: absolute;
+    top: auto;
+    top: 35%;
+    left: 14px;
+    /* IE 9 */
+}
+
+
+
+input[type="radio"] {
+    -ms-transform: scale(1.4);
+    /* IE 9 */
+    -webkit-transform: scale(1.4);
+    /* Chrome, Safari, Opera */
+    transform: scale(1.4);
+}
+
+.TextSelect {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Neue montreal';
+    font-size: 16px;
+    font-weight: 600;
+    padding: 8px 16px;
+    padding-left: 48px;
+    width: 100%;
+    border-radius: 16px;
+    color: #3C4549;
+}
+
+.TextSelect span {
+    font-family: 'Neue montreal';
+    font-size: 14px;
+    font-weight: 400;
+    color: #3C4549;
+}
+
+input:checked+span {
+    background: #e0e8fd69;
+     border-radius: 6px;
+}
+
+.divider {
+    height: 1px;
+    background: #e1e5e9;
+    margin: 15px 0;
+}
+
+/* Selector personalizado */
+.wrapp-all-component-select {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.wrapp-select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    cursor: pointer;
+    background: white;
+    transition: border-color 0.2s ease;
+}
+
+.wrapp-select:hover {
+    border-color: #1C83E3;
+}
+
+.options-select {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    list-style: none;
+
+
+    
+}
+
+.address-list ul{
+    flex-direction: column;
+    gap: 16px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+
+.options-select li {
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.options-select li:hover {
+    background-color: #f5f5f5;
+    border-radius: 6px;
+}
+
+/* Textarea */
+.text-area-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 100px;
+    transition: border-color 0.2s ease;
+}
+
+.text-area-input:focus {
+    outline: none;
+    border-color: #1C83E3;
+    box-shadow: 0 0 0 3px rgba(28, 131, 227, 0.1);
+}
+
+/* Botones */
+.guardarComentsBtn {
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 24px;
+    padding: 8px 16px;
+    font-family: Neue Montreal;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: bolder;
+    transition: all .2s ease-in;
+}
+
+.ant-btn{
+    color: #fff;
+    cursor: pointer;
+    background: #426fcd;
+    border-style: none;
+    border-radius: 100px!important;
+    width: 100%;
+    height: 54px;
+    padding: 16px 30px;
+    font-family: Neue montreal;
+    font-size: 16px;
+    font-weight: bolder;
+    transition: all .2s ease-in;
+}
+
+
+.wrapp-btns-comentas {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 15px;
+}
+
+/* Comentarios agregados */
+.cardComentAdded {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border: 1px solid #e1e5e9;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.cardComentAdded p {
+    margin: 0;
+    flex: 1;
+}
+
+.cardComentAdded span {
+    font-weight: 600;
+    color: #1C83E3;
+}
+
+/* Wrapper de select y textarea */
+.wrapp-select-textArea {
+
+    
+    border-radius: 8px;
+    margin-bottom: 15px; 
+}
+
+.wrapp-select-sku {
+    margin-bottom: 15px;
+}
+
+/* Mensajes informativos */
+.nonInfo {
+    color: #757575;
+    margin: 0;
+    font-family: Neue Montreal;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+/* Estados de carga */
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #e1e5e9;
+    border-top: 2px solid #1C83E3;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Alertas */
+.alert {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  
+    
+    .cardComponent,
+    .cardComponent-coments {
+        padding: 15px;
+    }
+    
+    .wrapp-btns-comentas {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/* Estilos para SweetAlert2 */
+.popAlert {
+    border-radius: 12px !important;
+}
+
+.titlePopup {
+    color: #2c3e50 !important;
+    font-weight: 600 !important;
+}
+
+.textpopup {
+    color: #6b7280 !important;
+    line-height: 1.6 !important;
+}
+
+.clear-cart {
+    background: #1C83E3 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 10px 20px !important;
+    font-weight: 500 !important;
+}
+
+.btn-siguiente {
+    background: #1C83E3 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 10px 20px !important;
+    font-weight: 500 !important;
+}
+
+.clodeBtnBtn {
+    color: #6b7280 !important;
+}
+
+.confirmBtn {
+    background: #dc3545 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 8px 16px !important;
+    font-weight: 500 !important;
+}
+
+.closeBtn {
+    background: #6c757d !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 8px 16px !important;
+    font-weight: 500 !important;
+}

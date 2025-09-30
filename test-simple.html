@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Simple</title>
+</head>
+<body>
+    <h1>Test Simple</h1>
+    <div id="test-root"></div>
+    
+    <script type="module">
+        import React from 'react';
+        import ReactDOM from 'react-dom/client';
+        
+        console.log('React cargado:', React);
+        console.log('ReactDOM cargado:', ReactDOM);
+        
+        const TestComponent = () => {
+            console.log('TestComponent renderizando...');
+            return React.createElement('div', null, '¡Hola desde React!');
+        };
+        
+        const container = document.getElementById('test-root');
+        console.log('Contenedor:', container);
+        
+        if (container) {
+            const root = ReactDOM.createRoot(container);
+            console.log('Root creado:', root);
+            
+            root.render(React.createElement(TestComponent));
+            console.log('Componente renderizado');
+        }
+    </script>
+</body>
+</html>

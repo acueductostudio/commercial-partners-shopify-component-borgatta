@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotización Unificada - Shopify</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div id="cotizacion-root"></div>
+    
+    <!-- 
+    Ejemplo de integración con Shopify Liquid:
+    
+    <script>
+        const props = {
+            role: "{{ customer.tags }}",
+            idCliente: "{{ customer.default_address.company }}",
+            email: "{{ customer.email }}",
+            productos: [
+                {% for item in cart.items %}
+                    { 
+                        variantId: {{ item.variant_id }}, 
+                        title: "{{ item.title }}", 
+                        sku: "{{ item.sku }}", 
+                        quantity: {{ item.quantity }},
+                        price: {{ item.price }}
+                    },
+                {% endfor %}
+            ],
+            totalItems: {{ cart.item_count }},
+            totalPrice: {{ cart.total_price }}
+        };
+    </script>
+    -->
+    
+    <script type="module" src="./index.js"></script>
+</body>
+</html>
