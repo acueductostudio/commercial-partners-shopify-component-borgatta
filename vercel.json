@@ -3,6 +3,30 @@
   "outputDirectory": "dist",
   "framework": null,
   "installCommand": "npm install",
-  "devCommand": "npm run dev"
+  "devCommand": "npm run dev",
+  "rewrites": [
+    {
+      "source": "/cotizacion-unificado.js",
+      "destination": "/cotizacion-unificado.js"
+    },
+    {
+      "source": "/cotizacion-unificado.css",
+      "destination": "/cotizacion-unificado.css"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/cotizacion-unificado.(js|css)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
+  ]
 }
-
