@@ -185,18 +185,19 @@ class QuotationService {
   }
 
   /**
-   * Formatea los productos para Airtable
+   * Formatea los productos para Airtable como HTML para Zapier
    * @param {Array} productos - Lista de productos
-   * @returns {string} Productos formateados
+   * @returns {string} Productos formateados como filas HTML
    */
   formatProducts(productos) {
     if (!productos || productos.length === 0) {
       return 'No hay productos';
     }
 
-    return productos.map(producto => 
-      `${producto.title} (SKU: ${producto.sku}) - Cantidad: ${producto.quantity}`
-    ).join('; ');
+    // Generar solo las filas HTML para cada producto (sin tabla completa)
+    return productos.map(producto => {
+      return `<tr><td style="border: 1px solid #9e9e9e; padding: 12px 16px; text-align: left; font-size:17px;">${producto.sku || 'N/A'}</td> <td style="border: 1px solid #9e9e9e; padding: 12px 16px; text-align: left; font-size:17px;">${producto.title || 'N/A'}</td> <td style="border: 1px solid #9e9e9e; padding: 12px 16px; text-align: left; font-size:17px;">${producto.quantity || 0}</td></tr>`;
+    }).join('');
   }
 
   /**
