@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import CotizacionComponent, { ShopifyCotizacionComponent } from './CotizacionComponent.js';
-import { setMockMode, isMockMode } from './core/airtable/mockService.js';
 import './index.css';
 
 // Almacenar roots existentes para evitar crear múltiples
@@ -117,8 +116,7 @@ const cleanupCotizacionComponent = (containerId = 'cotizacion-root') => {
 const getDebugInfo = () => {
   return {
     activeRoots: Array.from(existingRoots.keys()),
-    rootCount: existingRoots.size,
-    mockMode: isMockMode()
+    rootCount: existingRoots.size
   };
 };
 
@@ -130,8 +128,6 @@ window.CotizacionComponent = {
   initialize: initializeCotizacionComponent,
   initializeCotizacionComponent: initializeCotizacionComponent, // Alias para compatibilidad
   cleanupCotizacionComponent: cleanupCotizacionComponent, // Alias para compatibilidad
-  setMockMode: (enabled) => setMockMode(enabled, true), // Siempre manual desde la interfaz
-  isMockMode: isMockMode,
   getDebugInfo: getDebugInfo
 };
 

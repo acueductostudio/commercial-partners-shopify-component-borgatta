@@ -1,7 +1,6 @@
 import apiClient from './apiClient.js';
 import { getAirtableUrl } from '../../config/env.js';
 import { SETTINGS } from '../../config/settings.js';
-import { mockQuotationService, isMockMode } from './mockService.js';
 
 /**
  * Servicio para manejo de cotizaciones en Airtable
@@ -18,14 +17,8 @@ class QuotationService {
    */
   async sendQuotation(quotationData) {
     console.log('📤 Iniciando envío de cotización:', quotationData);
-    console.log('🔍 Modo mock activo:', isMockMode());
     console.log('🎯 URL de destino:', this.quotationsUrl);
     
-    // Usar mock service en localhost para evitar límites de API
-    if (isMockMode()) {
-      console.log('🧪 Usando mock service para sendQuotation');
-      return await mockQuotationService.sendQuotation(quotationData);
-    }
 
     try {
       // Validar datos requeridos

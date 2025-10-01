@@ -1,7 +1,6 @@
 import apiClient from './apiClient.js';
 import { getAirtableUrl } from '../../config/env.js';
 import { SETTINGS } from '../../config/settings.js';
-import { mockUserService, isMockMode } from './mockService.js';
 
 /**
  * Servicio para manejo de usuarios/clientes en Airtable
@@ -18,11 +17,6 @@ class UserService {
    * @returns {Promise<object>} Datos del cliente
    */
   async getClientById(clientId) {
-    // Usar mock service en localhost para evitar límites de API
-    if (isMockMode()) {
-      console.log('🧪 Usando datos mock para getClientById:', clientId);
-      return await mockUserService.getClientById(clientId);
-    }
 
     try {
       if (!clientId) {
@@ -103,11 +97,6 @@ class UserService {
    * @returns {Promise<object>} Datos del asesor
    */
   async getAdvisorById(advisorId) {
-    // Usar mock service en localhost para evitar límites de API
-    if (isMockMode()) {
-      console.log('🧪 Usando datos mock para getAdvisorById:', advisorId);
-      return await mockUserService.getAdvisorById(advisorId);
-    }
 
     try {
       if (!advisorId) {
