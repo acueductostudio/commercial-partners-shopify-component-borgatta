@@ -108,6 +108,21 @@ export const useQuotation = (initialData = {}) => {
       if (result.success) {
         console.log('✅ Cotización enviada exitosamente');
         setSuccess(true);
+        
+        // Crear orden en Shopify si la función está disponible
+        if (typeof orderCreate === 'function') {
+          console.log('🛒 Creando orden en Shopify...');
+          try {
+            orderCreate();
+            console.log('✅ Orden creada en Shopify');
+          } catch (error) {
+            console.error('❌ Error al crear orden en Shopify:', error);
+            // No fallar la cotización si falla la creación de orden
+          }
+        } else {
+          console.log('⚠️ Función orderCreate no está disponible');
+        }
+        
         showSuccessModal();
         return result;
       } else {
