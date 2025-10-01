@@ -123,7 +123,7 @@ export const useQuotation = (initialData = {}) => {
     } finally {
       setLoading(false);
     }
-  }, [quotationData, validateQuotation, showSuccessModal, showErrorModal]);
+  }, [quotationData, validateQuotation]);
 
   /**
    * Limpia el estado de la cotización
