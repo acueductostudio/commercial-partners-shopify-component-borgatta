@@ -80,7 +80,8 @@ const Asesor = ({
     solicitudPor: SETTINGS.USER_ROLES.ASESOR,
     asesor: idCliente,
     emailAsesor: email,
-    deposito: selectedDepositId // ID del depósito seleccionado
+    deposito: selectedDepositId, // ID del depósito seleccionado
+    depositoSelect: selectedDepositId // Para validación
   });
 
   // Inicializar datos de cotización
@@ -96,6 +97,7 @@ const Asesor = ({
       asesor: idCliente,
       emailAsesor: email,
       deposito: selectedDepositId, // ID del depósito seleccionado
+      depositoSelect: selectedDepositId, // Para validación
       rfc: clientData?.rfc || '', // RFC del cliente
       telemarketing: clientData?.telemarketing || '' // Email de telemarketing
     });
