@@ -1,5 +1,5 @@
 import apiClient from './apiClient.js';
-import { getAirtableUrl } from '../../config/env.js';
+import { getAirtableUrl, ENV_CONFIG } from '../../config/env.js';
 import { SETTINGS } from '../../config/settings.js';
 
 /**
@@ -21,20 +21,35 @@ class QuotationService {
     
 
     try {
-      // Validar datos requeridos
-      this.validateQuotationData(quotationData);
-
-      // Preparar payload para Airtable
+      // Preparar payload para Airtable (sin validaciones complejas)
       const payload = this.buildQuotationPayload(quotationData);
+      console.log('📦 Payload preparado:', payload);
 
-      // Enviar a Airtable
-      const response = await apiClient.post(this.quotationsUrl, payload);
+      // Enviar a Airtable usando fetch directo (como en asesores)
+      const response = await fetch(this.quotationsUrl, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${ENV_CONFIG.AIRTABLE_API_KEY}`
+        },
+        body: JSON.stringify(payload)
+      });
 
-      return {
-        success: true,
-        data: response,
-        message: 'Cotización enviada exitosamente'
-      };
+      console.log('📥 Respuesta de Airtable:', response);
+
+      if (response.ok) {
+        const data = await response.json();
+        return {
+          success: true,
+          data: data,
+          message: 'Cotización enviada exitosamente'
+        };
+      } else {
+        const errorData = await response.text();
+        console.error('❌ Error de Airtable:', response.status, errorData);
+        throw new Error(`Error ${response.status}: ${errorData}`);
+      }
     } catch (error) {
       console.error('Error al enviar cotización:', error);
       return {
@@ -105,6 +120,12 @@ class QuotationService {
       if (value === undefined || value === null) return '';
       return value;
     };
+
+    // Función para limpiar campos de email (no enviar si está vacío)
+    const cleanEmailValue = (value) => {
+      if (value === undefined || value === null || value === '') return undefined;
+      return value;
+    };
     
     const payload = {
       records: [{
@@ -126,7 +147,10 @@ class QuotationService {
     if (data.solicitudPor === SETTINGS.USER_ROLES.DEPOSITO) {
       payload.records[0].fields[fields.DIRECCION_DEPOSITO] = cleanValue(data.direccionDeposito);
       payload.records[0].fields[fields.RFC] = cleanValue(data.rfc);
-      payload.records[0].fields[fields.EMAIL_TELEMARKETING] = cleanValue(data.telemarketing);
+      const telemarketingValue = cleanEmailValue(data.telemarketing);
+      if (telemarketingValue !== undefined) {
+        payload.records[0].fields[fields.EMAIL_TELEMARKETING] = telemarketingValue;
+      }
     }
 
     if (data.solicitudPor === SETTINGS.USER_ROLES.ASESOR) {
@@ -134,7 +158,10 @@ class QuotationService {
       payload.records[0].fields[fields.EMAIL_ASESOR] = cleanValue(data.emailAsesor);
       payload.records[0].fields[fields.DIRECCION_DEPOSITO] = cleanValue(data.direccionDeposito);
       payload.records[0].fields[fields.RFC] = cleanValue(data.rfc);
-      payload.records[0].fields[fields.EMAIL_TELEMARKETING] = cleanValue(data.telemarketing);
+      const telemarketingValue = cleanEmailValue(data.telemarketing);
+      if (telemarketingValue !== undefined) {
+        payload.records[0].fields[fields.EMAIL_TELEMARKETING] = telemarketingValue;
+      }
       console.log('🔧 buildQuotationPayload - Campos de Asesor agregados:', {
         asesor: data.asesor,
         emailAsesor: data.emailAsesor,

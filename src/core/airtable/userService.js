@@ -41,12 +41,28 @@ class UserService {
 
       const clientData = response.records[0].fields;
       
+      // Extraer telemarketing correctamente (puede ser objeto o string)
+      const telemarketingRaw = clientData[SETTINGS.AIRTABLE_FIELDS.CLIENT.TELEMARKETING];
+      let telemarketing = '';
+      if (telemarketingRaw) {
+        if (typeof telemarketingRaw === 'string') {
+          telemarketing = telemarketingRaw;
+        } else if (typeof telemarketingRaw === 'object' && telemarketingRaw.email) {
+          telemarketing = telemarketingRaw.email;
+        } else if (Array.isArray(telemarketingRaw) && telemarketingRaw.length > 0) {
+          telemarketing = telemarketingRaw[0];
+        }
+      }
+      
+      console.log('🔍 userService - telemarketing raw:', telemarketingRaw);
+      console.log('🔍 userService - telemarketing processed:', telemarketing);
+
       return {
         id: clientData[SETTINGS.AIRTABLE_FIELDS.CLIENT.ID_CLIENTE],
         direcciones: clientData[SETTINGS.AIRTABLE_FIELDS.CLIENT.DIRECCIONES_DEPOSITOS] || [],
         rfc: clientData[SETTINGS.AIRTABLE_FIELDS.CLIENT.RFC] || '',
         email: clientData[SETTINGS.AIRTABLE_FIELDS.CLIENT.EMAIL] || '',
-        telemarketing: clientData[SETTINGS.AIRTABLE_FIELDS.CLIENT.TELEMARKETING] || ''
+        telemarketing: telemarketing
       };
     } catch (error) {
       console.error('Error al buscar cliente:', error);
