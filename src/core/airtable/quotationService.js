@@ -100,15 +100,21 @@ class QuotationService {
     console.log('🔧 buildQuotationPayload - Datos recibidos:', data);
     console.log('🔧 buildQuotationPayload - Campos configurados:', fields);
     
+    // Función para limpiar valores undefined/null
+    const cleanValue = (value) => {
+      if (value === undefined || value === null) return '';
+      return value;
+    };
+    
     const payload = {
       records: [{
         fields: {
-          [fields.ID_CLIENTE]: data.idCliente,
-          [fields.EMAIL]: data.email,
+          [fields.ID_CLIENTE]: cleanValue(data.idCliente),
+          [fields.EMAIL]: cleanValue(data.email),
           [fields.PRODUCTOS]: this.formatProducts(data.productos),
-          [fields.SOLICITUD_POR]: data.solicitudPor,
+          [fields.SOLICITUD_POR]: cleanValue(data.solicitudPor),
           [fields.COMENTARIO]: this.formatComments(data.comentarios),
-          [fields.DEPOSITO]: data.deposito || data.idCliente // Usar deposito si está disponible, sino idCliente
+          [fields.DEPOSITO]: cleanValue(data.deposito || data.idCliente) // Usar deposito si está disponible, sino idCliente
         }
       }],
       typecast: true
@@ -118,29 +124,32 @@ class QuotationService {
 
     // Campos específicos por rol
     if (data.solicitudPor === SETTINGS.USER_ROLES.DEPOSITO) {
-      payload.records[0].fields[fields.DIRECCION_DEPOSITO] = data.direccionDeposito;
-      payload.records[0].fields[fields.RFC] = data.rfc || '';
-      payload.records[0].fields[fields.EMAIL_TELEMARKETING] = data.telemarketing || '';
+      payload.records[0].fields[fields.DIRECCION_DEPOSITO] = cleanValue(data.direccionDeposito);
+      payload.records[0].fields[fields.RFC] = cleanValue(data.rfc);
+      payload.records[0].fields[fields.EMAIL_TELEMARKETING] = cleanValue(data.telemarketing);
     }
 
     if (data.solicitudPor === SETTINGS.USER_ROLES.ASESOR) {
-      payload.records[0].fields[fields.ASESOR] = data.asesor;
-      payload.records[0].fields[fields.EMAIL_ASESOR] = data.emailAsesor;
-      payload.records[0].fields[fields.DIRECCION_DEPOSITO] = data.direccionDeposito || '';
+      payload.records[0].fields[fields.ASESOR] = cleanValue(data.asesor);
+      payload.records[0].fields[fields.EMAIL_ASESOR] = cleanValue(data.emailAsesor);
+      payload.records[0].fields[fields.DIRECCION_DEPOSITO] = cleanValue(data.direccionDeposito);
+      payload.records[0].fields[fields.RFC] = cleanValue(data.rfc);
+      payload.records[0].fields[fields.EMAIL_TELEMARKETING] = cleanValue(data.telemarketing);
       console.log('🔧 buildQuotationPayload - Campos de Asesor agregados:', {
         asesor: data.asesor,
         emailAsesor: data.emailAsesor,
         direccionDeposito: data.direccionDeposito,
-        deposito: data.deposito
+        deposito: data.deposito,
+        rfc: data.rfc,
+        telemarketing: data.telemarketing
       });
     }
 
     // Campos de productos (para compatibilidad con el sistema actual)
     if (data.productos && data.productos.length > 0) {
-      const firstProduct = data.productos[0];
-      payload.records[0].fields[fields.NAME_PRODUCT] = this.formatProductNames(data.productos);
-      payload.records[0].fields[fields.SKU_PRODUCT] = this.formatProductSKUs(data.productos);
-      payload.records[0].fields[fields.CANTIDAD_PRODUCT] = this.formatProductQuantities(data.productos);
+      payload.records[0].fields[fields.NAME_PRODUCT] = cleanValue(this.formatProductNames(data.productos));
+      payload.records[0].fields[fields.SKU_PRODUCT] = cleanValue(this.formatProductSKUs(data.productos));
+      payload.records[0].fields[fields.CANTIDAD_PRODUCT] = cleanValue(this.formatProductQuantities(data.productos));
       console.log('🔧 buildQuotationPayload - Campos de productos agregados');
     }
 
