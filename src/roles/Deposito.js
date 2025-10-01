@@ -27,6 +27,7 @@ const Deposito = ({
   const {
     loading: airtableLoading,
     error: airtableError,
+    clientData,
     addresses,
     isReady: airtableReady
   } = useAirtable(SETTINGS.USER_ROLES.DEPOSITO, idCliente);
@@ -64,9 +65,11 @@ const Deposito = ({
       productos,
       totalItems,
       totalPrice,
-      solicitudPor: SETTINGS.USER_ROLES.DEPOSITO
+      solicitudPor: SETTINGS.USER_ROLES.DEPOSITO,
+      rfc: clientData?.rfc || '', // RFC del cliente
+      telemarketing: clientData?.telemarketing || '' // Email de telemarketing
     });
-  }, [idCliente, email, totalItems, totalPrice, updateQuotationData]);
+  }, [idCliente, email, totalItems, totalPrice, clientData, updateQuotationData]);
 
   // Manejar cambio de comentarios
   const handleCommentsChange = useCallback((comments) => {

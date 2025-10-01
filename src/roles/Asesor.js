@@ -36,6 +36,7 @@ const Asesor = ({
   const {
     loading: airtableLoading,
     error: airtableError,
+    clientData,
     deposits,
     addresses,
     isReady: airtableReady,
@@ -48,6 +49,7 @@ const Asesor = ({
   console.log('🏢 Asesor - useAirtable data:', {
     loading: airtableLoading,
     error: airtableError,
+    clientData,
     deposits: deposits.length,
     addresses: addresses.length,
     isReady: airtableReady
@@ -93,9 +95,11 @@ const Asesor = ({
       solicitudPor: SETTINGS.USER_ROLES.ASESOR,
       asesor: idCliente,
       emailAsesor: email,
-      deposito: selectedDepositId // ID del depósito seleccionado
+      deposito: selectedDepositId, // ID del depósito seleccionado
+      rfc: clientData?.rfc || '', // RFC del cliente
+      telemarketing: clientData?.telemarketing || '' // Email de telemarketing
     });
-  }, [idCliente, email, totalItems, totalPrice, selectedDepositId, updateQuotationData]);
+  }, [idCliente, email, totalItems, totalPrice, selectedDepositId, clientData, updateQuotationData]);
 
   // Log de opciones de depósitos
   const depositOptions = getDepositOptions();
