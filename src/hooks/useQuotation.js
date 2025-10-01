@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import quotationService from '../core/airtable/quotationService.js';
 import { SETTINGS } from '../config/settings.js';
+import Swal from 'sweetalert2';
 
 /**
  * Hook personalizado para manejo de cotizaciones
@@ -107,7 +108,7 @@ export const useQuotation = (initialData = {}) => {
       if (result.success) {
         console.log('✅ Cotización enviada exitosamente');
         setSuccess(true);
-        showSuccessModal('Tu solicitud de cotización ha sido enviada correctamente. Te contactaremos pronto.');
+        showSuccessModal();
         return result;
       } else {
         console.error('❌ Error en respuesta:', result.error);
@@ -145,15 +146,35 @@ export const useQuotation = (initialData = {}) => {
   }, []);
 
   /**
-   * Muestra el modal de éxito
+   * Muestra el modal de éxito usando SweetAlert2
    */
-  const showSuccessModal = useCallback((message = 'Cotización enviada exitosamente') => {
-    setModal({
-      isOpen: true,
-      type: 'success',
-      title: '¡Éxito!',
-      message: message,
-      details: null
+  const showSuccessModal = useCallback(() => {
+    Swal.fire({
+      ...SETTINGS.SWEET_ALERT.SUCCESS,
+      customClass: {
+        popup: 'popAlert',
+        title: 'titlePopup',
+        confirmButton: 'clear-cart',
+        htmlContainer: 'textpopup',
+        closeButton: 'clodeBtnBtn'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Limpiar carrito de Shopify si está disponible
+        if (typeof $ !== 'undefined' && $.ajax) {
+          $.ajax({
+            type: "POST",
+            url: '/cart/clear.js',
+            success: function(){
+              window.location.href = "/";
+            },
+            dataType: 'json'
+          });
+        } else {
+          // Si no hay jQuery, solo redirigir
+          window.location.href = "/";
+        }
+      }
     });
   }, []);
 

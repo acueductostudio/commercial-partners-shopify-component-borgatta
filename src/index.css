@@ -25,19 +25,19 @@ body {
 .cardComponent {
     background: #fff;
     border: 1px solid #e1e5e9;
-    border-radius: 8px;
+    border-radius: 24px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+   
 }
 
 .cardComponent-coments {
     background: #fff;
-    border: 1px solid #e1e5e9;
-    border-radius: 8px;
+    border: 1px solid #E1E3E4;
+    border-radius: 24px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    
 }
 
 /* Títulos */
@@ -163,7 +163,7 @@ input:checked+span {
     justify-content: space-between;
     padding: 12px 16px;
     border: 1px solid #d1d5db;
-    border-radius: 6px;
+    border-radius: 16px;
     cursor: pointer;
     background: white;
     transition: border-color 0.2s ease;
@@ -192,6 +192,7 @@ input:checked+span {
 }
 
 .address-list ul{
+    width: 100%;
     flex-direction: column;
     gap: 16px;
     margin: 16px 0 0;
@@ -217,7 +218,7 @@ input:checked+span {
     width: 100%;
     padding: 12px 16px;
     border: 1px solid #d1d5db;
-    border-radius: 6px;
+    border-radius: 16px;
     font-size: 16px;
     font-family: inherit;
     resize: vertical;
@@ -371,6 +372,9 @@ input:checked+span {
 }
 
 /* Estilos para SweetAlert2 */
+.swal2-popup {
+    border-radius: 30px !important;
+}
 .popAlert {
     border-radius: 12px !important;
 }
@@ -386,15 +390,45 @@ input:checked+span {
 }
 
 .clear-cart {
-    background: #1C83E3 !important;
+    background: #426fcd !important;
     border: none !important;
-    border-radius: 6px !important;
-    padding: 10px 20px !important;
+    border-radius: 40px !important;
+    padding: 12px 24px !important;
     font-weight: 500 !important;
 }
 
+
+
+
+.clear-cart:active {
+    background: #2a4988 !important;
+}
+
+.swal2-confirm {
+    background: #426fcd !important;
+    border: 2px solid #426fcd !important;
+    border-radius: 40px !important;
+    padding: 12px 24px !important;
+    font-weight: 500 !important;
+}
+
+.swal2-confirm:hover {
+    background: transparent !important;
+    color: #426fcd !important;
+    border: 2px solid #426fcd !important;
+}
+
+.swal2-cancel {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 8px 16px !important;
+    font-weight: 500 !important;
+    color: #426fcd !important;
+}
+
 .btn-siguiente {
-    background: #1C83E3 !important;
+    background: #426fcd !important;
     border: none !important;
     border-radius: 6px !important;
     padding: 10px 20px !important;
