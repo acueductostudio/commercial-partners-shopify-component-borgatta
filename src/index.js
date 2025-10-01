@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import CotizacionComponent, { ShopifyCotizacionComponent } from './CotizacionComponent.js';
+import { setMockMode, isMockMode } from './core/airtable/mockService.js';
 import './index.css';
 
 // Almacenar roots existentes para evitar crear múltiples
@@ -109,8 +110,6 @@ const cleanupCotizacionComponent = (containerId = 'cotizacion-root') => {
   }
 };
 
-// Importar funciones de mock
-import { setMockMode, isMockMode } from './core/airtable/mockService.js';
 
 /**
  * Función para obtener información de debugging sobre los roots
