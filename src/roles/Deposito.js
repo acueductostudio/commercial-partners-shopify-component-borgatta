@@ -7,6 +7,7 @@ import AddressSelector from '../ui/quotation/AddressSelector.js';
 import { TotalSend } from '../ui/quotation/SummaryBox.js';
 import SubmitButton from '../ui/quotation/SubmitButton.js';
 import Alert from '../ui/common/Alert.js';
+import Modal from '../ui/common/Modal.js';
 
 /**
  * Componente Deposito - Flujo para usuarios con rol de depósito
@@ -40,7 +41,10 @@ const Deposito = ({
     loading: quotationLoading,
     error: quotationError,
     success: quotationSuccess,
-    isReadyToSend
+    isReadyToSend,
+    modal,
+    closeModal,
+    retrySendQuotation
   } = useQuotation({
     role: SETTINGS.USER_ROLES.DEPOSITO,
     idCliente,
@@ -200,6 +204,18 @@ const Deposito = ({
           </div>
         </div>
       )}
+
+      {/* Modal de confirmación */}
+      <Modal
+        isOpen={modal.isOpen}
+        onClose={closeModal}
+        type={modal.type}
+        title={modal.title}
+        message={modal.message}
+        details={modal.details}
+        showRetry={modal.type === 'error'}
+        onRetry={retrySendQuotation}
+      />
     </div>
   );
 };

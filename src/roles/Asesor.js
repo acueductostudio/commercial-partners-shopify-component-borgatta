@@ -8,6 +8,7 @@ import { AdvisorAddressSelector } from '../ui/quotation/AddressSelector.js';
 import { TotalSend } from '../ui/quotation/SummaryBox.js';
 import SubmitButton from '../ui/quotation/SubmitButton.js';
 import Alert from '../ui/common/Alert.js';
+import Modal from '../ui/common/Modal.js';
 
 /**
  * Componente Asesor - Flujo para usuarios con rol de asesor
@@ -63,7 +64,10 @@ const Asesor = ({
     loading: quotationLoading,
     error: quotationError,
     success: quotationSuccess,
-    isReadyToSend
+    isReadyToSend,
+    modal,
+    closeModal,
+    retrySendQuotation
   } = useQuotation({
     role: SETTINGS.USER_ROLES.ASESOR,
     idCliente,
@@ -221,7 +225,7 @@ const Asesor = ({
           disabled={isSubmitDisabled()}
           loading={quotationLoading}
         >
-          Pedir Cotización asdfasdf
+          Pedir Cotización
         </SubmitButton>
       </div>
 
@@ -278,6 +282,18 @@ const Asesor = ({
           </div>
         </div>
       )}
+
+      {/* Modal de confirmación */}
+      <Modal
+        isOpen={modal.isOpen}
+        onClose={closeModal}
+        type={modal.type}
+        title={modal.title}
+        message={modal.message}
+        details={modal.details}
+        showRetry={modal.type === 'error'}
+        onRetry={retrySendQuotation}
+      />
     </div>
   );
 };

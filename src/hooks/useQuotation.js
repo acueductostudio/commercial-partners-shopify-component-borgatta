@@ -13,6 +13,15 @@ export const useQuotation = (initialData = {}) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [quotationData, setQuotationData] = useState(initialData);
+  
+  // Estados del modal
+  const [modal, setModal] = useState({
+    isOpen: false,
+    type: 'success', // 'success' | 'error'
+    title: '',
+    message: '',
+    details: null
+  });
 
   /**
    * Actualiza los datos de la cotización
@@ -98,19 +107,23 @@ export const useQuotation = (initialData = {}) => {
       if (result.success) {
         console.log('✅ Cotización enviada exitosamente');
         setSuccess(true);
+        showSuccessModal('Tu solicitud de cotización ha sido enviada correctamente. Te contactaremos pronto.');
         return result;
       } else {
         console.error('❌ Error en respuesta:', result.error);
-        throw new Error(result.error || 'Error al enviar cotización');
+        const errorMsg = result.error || 'Error al enviar cotización';
+        showErrorModal(errorMsg, result.details);
+        throw new Error(errorMsg);
       }
     } catch (err) {
       console.error('💥 Error en sendQuotation:', err);
       setError(err.message);
+      showErrorModal(err.message, err.stack);
       throw err;
     } finally {
       setLoading(false);
     }
-  }, [quotationData, validateQuotation]);
+  }, [quotationData, validateQuotation, showSuccessModal, showErrorModal]);
 
   /**
    * Limpia el estado de la cotización
@@ -130,6 +143,54 @@ export const useQuotation = (initialData = {}) => {
     setSuccess(false);
     setLoading(false);
   }, []);
+
+  /**
+   * Muestra el modal de éxito
+   */
+  const showSuccessModal = useCallback((message = 'Cotización enviada exitosamente') => {
+    setModal({
+      isOpen: true,
+      type: 'success',
+      title: '¡Éxito!',
+      message: message,
+      details: null
+    });
+  }, []);
+
+  /**
+   * Muestra el modal de error
+   */
+  const showErrorModal = useCallback((message = 'Error al enviar cotización', details = null) => {
+    setModal({
+      isOpen: true,
+      type: 'error',
+      title: 'Error',
+      message: message,
+      details: details
+    });
+  }, []);
+
+  /**
+   * Cierra el modal
+   */
+  const closeModal = useCallback(() => {
+    setModal(prev => ({
+      ...prev,
+      isOpen: false
+    }));
+  }, []);
+
+  /**
+   * Reintenta el envío de la cotización
+   */
+  const retrySendQuotation = useCallback(async () => {
+    try {
+      await sendQuotation();
+    } catch (error) {
+      // El error se manejará automáticamente en sendQuotation
+      console.error('Error en reintento:', error);
+    }
+  }, [sendQuotation]);
 
   /**
    * Obtiene el total de productos
@@ -183,6 +244,7 @@ export const useQuotation = (initialData = {}) => {
     error,
     success,
     quotationData,
+    modal,
     
     // Computed values
     hasProducts,
@@ -202,7 +264,13 @@ export const useQuotation = (initialData = {}) => {
     sendQuotation,
     clearQuotation,
     resetSendState,
-    getFormattedData
+    getFormattedData,
+    
+    // Funciones del modal
+    showSuccessModal,
+    showErrorModal,
+    closeModal,
+    retrySendQuotation
   };
 };
 
