@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm install && parcel build index.html --dist-dir dist --public-url ./ && node scripts/rename-build.cjs",
+  "buildCommand": "parcel build src/index.js src/index.css --dist-dir dist --public-url ./ && mv dist/index.js dist/cotizacion-unificado.js && mv dist/index.css dist/cotizacion-unificado.css",
   "outputDirectory": "dist",
   "framework": null,
   "installCommand": "npm install",
