@@ -1,38 +1,13 @@
 {
-  "buildCommand": "parcel build index.html && node scripts/rename-build.cjs",
+  "buildCommand": "npm install && parcel build index.html --dist-dir dist --public-url ./ && node scripts/rename-build.cjs",
   "outputDirectory": "dist",
   "framework": null,
   "installCommand": "npm install",
   "devCommand": "npm run dev",
   "headers": [
     {
-      "source": "/cotizacion-unificado.js",
+      "source": "/(.*)",
       "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        },
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        }
-      ]
-    },
-    {
-      "source": "/cotizacion-unificado.css",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "text/css; charset=utf-8"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        },
         {
           "key": "Access-Control-Allow-Origin",
           "value": "*"
