@@ -9,22 +9,33 @@ const path = require('path');
 
 const distDir = path.join(__dirname, '../dist');
 
-// Función para encontrar archivos por patrón
-function findFiles(pattern) {
-  const files = fs.readdirSync(distDir);
-  return files.filter(file => file.includes(pattern));
+// Función para encontrar archivos por extensión
+function findFilesByExtension(ext) {
+  try {
+    const files = fs.readdirSync(distDir);
+    return files.filter(file => 
+      file.endsWith(ext) && 
+      !file.endsWith('.map') &&
+      !file.includes('cotizacion-unificado')
+    );
+  } catch (error) {
+    console.error(`Error leyendo directorio ${distDir}:`, error.message);
+    return [];
+  }
 }
 
 // Función para renombrar archivos
 function renameFiles() {
   try {
-    // Buscar archivos CSS
-    const cssFiles = findFiles('.css');
-    const jsFiles = findFiles('.js');
+    console.log('\n🔍 Buscando archivos en:', distDir);
     
-    console.log('Archivos encontrados:');
-    console.log('CSS:', cssFiles);
-    console.log('JS:', jsFiles);
+    // Buscar archivos CSS
+    const cssFiles = findFilesByExtension('.css');
+    const jsFiles = findFilesByExtension('.js');
+    
+    console.log('📦 Archivos encontrados:');
+    console.log('  CSS:', cssFiles.length ? cssFiles : 'ninguno');
+    console.log('  JS:', jsFiles.length ? jsFiles : 'ninguno');
     
     // Renombrar archivo CSS
     if (cssFiles.length > 0) {
@@ -33,16 +44,28 @@ function renameFiles() {
       const oldCssPath = path.join(distDir, cssFile);
       const newCssPath = path.join(distDir, newCssName);
       
+      // Si ya existe el archivo de destino, eliminarlo primero
+      if (fs.existsSync(newCssPath)) {
+        fs.unlinkSync(newCssPath);
+      }
+      
       fs.renameSync(oldCssPath, newCssPath);
       console.log(`✅ Renombrado: ${cssFile} → ${newCssName}`);
       
       // Renombrar source map si existe
       const cssMapFile = cssFile + '.map';
-      if (fs.existsSync(path.join(distDir, cssMapFile))) {
+      const cssMapPath = path.join(distDir, cssMapFile);
+      if (fs.existsSync(cssMapPath)) {
         const newCssMapName = newCssName + '.map';
-        fs.renameSync(path.join(distDir, cssMapFile), path.join(distDir, newCssMapName));
+        const newCssMapPath = path.join(distDir, newCssMapName);
+        if (fs.existsSync(newCssMapPath)) {
+          fs.unlinkSync(newCssMapPath);
+        }
+        fs.renameSync(cssMapPath, newCssMapPath);
         console.log(`✅ Renombrado: ${cssMapFile} → ${newCssMapName}`);
       }
+    } else {
+      console.log('⚠️  No se encontraron archivos CSS para renombrar');
     }
     
     // Renombrar archivo JS
@@ -52,25 +75,38 @@ function renameFiles() {
       const oldJsPath = path.join(distDir, jsFile);
       const newJsPath = path.join(distDir, newJsName);
       
+      // Si ya existe el archivo de destino, eliminarlo primero
+      if (fs.existsSync(newJsPath)) {
+        fs.unlinkSync(newJsPath);
+      }
+      
       fs.renameSync(oldJsPath, newJsPath);
       console.log(`✅ Renombrado: ${jsFile} → ${newJsName}`);
       
       // Renombrar source map si existe
       const jsMapFile = jsFile + '.map';
-      if (fs.existsSync(path.join(distDir, jsMapFile))) {
+      const jsMapPath = path.join(distDir, jsMapFile);
+      if (fs.existsSync(jsMapPath)) {
         const newJsMapName = newJsName + '.map';
-        fs.renameSync(path.join(distDir, jsMapFile), path.join(distDir, newJsMapName));
+        const newJsMapPath = path.join(distDir, newJsMapName);
+        if (fs.existsSync(newJsMapPath)) {
+          fs.unlinkSync(newJsMapPath);
+        }
+        fs.renameSync(jsMapPath, newJsMapPath);
         console.log(`✅ Renombrado: ${jsMapFile} → ${newJsMapName}`);
       }
+    } else {
+      console.log('⚠️  No se encontraron archivos JS para renombrar');
     }
     
-    console.log('\n🎉 Archivos renombrados exitosamente!');
-    console.log('\nArchivos listos para Shopify:');
-    console.log('- cotizacion-unificado.css');
-    console.log('- cotizacion-unificado.js');
+    console.log('\n🎉 Proceso completado!');
+    console.log('\n📄 Archivos listos para Shopify/CDN:');
+    console.log('  - cotizacion-unificado.css');
+    console.log('  - cotizacion-unificado.js\n');
     
   } catch (error) {
     console.error('❌ Error al renombrar archivos:', error.message);
+    console.error('Stack:', error.stack);
     process.exit(1);
   }
 }

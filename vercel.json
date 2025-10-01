@@ -1,5 +1,5 @@
 {
-  "buildCommand": "parcel build src/index.js --dist-dir dist --public-url ./ && find dist -name '*.js' -type f ! -name '*.map' | head -1 | xargs -I {} mv {} dist/cotizacion-unificado.js && find dist -name '*.css' -type f ! -name '*.map' | head -1 | xargs -I {} mv {} dist/cotizacion-unificado.css",
+  "buildCommand": "parcel build src/index.js --dist-dir dist && node scripts/rename-build.cjs",
   "outputDirectory": "dist",
   "framework": null,
   "installCommand": "npm install",
